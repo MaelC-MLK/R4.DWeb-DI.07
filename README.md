@@ -8,6 +8,21 @@ Commencez par effectuer une copie de ce repository sur votre compte GitHub en cl
 
 Si c'est la première séance, passez directement au TP1 en passant par le lien un peu plus bas. Si vous avez déjà installé votre application Symfony, suivez les instructions suivantes pour lancer votre application.
 
+## Versionner votre travail
+Il est très important de versionner vos fichiers régulièrement, afin de pouvoir facilement sauvegarder les différents versions de votre projet. En pratique, cela se traduit par faire des "commits" réguliers grâce à Git, en faisant des "push" sur votre repository GitHub.
+
+Pensez à commit la version de votre projet au moins une fois en fin de séance!
+
+Rappel pour faire un commit:
+```
+# Faites le commit (vous pouvez personnaliser le message entre guillemets)
+git add .
+git commit -m "Nouvelle version du projet" 
+
+# Mettez à jour le repository sur GitHub
+git push -u
+```
+
 ## Lancer l'application
 Vérifiez que Docker Desktop est lancé en cherchant son icône dans la barre de tâche. Si vous ne la trouvez pas, ouvrez l'application et attendez que tout soit opérationnel.
 
