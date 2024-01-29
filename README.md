@@ -13,7 +13,10 @@ Il est très important de versionner vos fichiers régulièrement, afin de pouvo
 
 **Pensez à commit la version de votre projet au moins une fois en fin de séance!**
 
-Rappel pour faire un commit:
+Pour faire un commit:
+S'il y a besoin, commencez par mettre à jour votre Fork avec les derniers commits du repository de base. Pour cela, allez sur votre repository sur GitHub, puis faites "Sync Fork" -> "Update branch".
+
+Ensuite exécutez ces commandes:
 ```
 # Positionnez-vous dans le répertoire du projet si ce n'est pas déjà fait
 cd R4.DWeb-DI.07/
@@ -21,6 +24,10 @@ cd R4.DWeb-DI.07/
 # Faites le commit (vous pouvez personnaliser le message entre guillemets)
 git add .
 git commit -m "Nouvelle version du projet" 
+
+# Mettez à jour votre repository local avec la dernière version du repository distant (équivalent d'un )
+git fetch
+git rebase
 
 # Mettez à jour le repository sur GitHub
 git push -u
