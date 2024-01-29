@@ -4,17 +4,20 @@
 [Docker Desktop](https://www.docker.com/products/docker-desktop/) doit être installé.
 
 ## Mise en route
-Commencez par effectuer une copie de ce repository sur votre compte GitHub en cliquant sur le bouton "Fork" en haut à droite de cette page. Vous allez ensuite cloner votre copie, ce "Fork", en local afin de travaillez dessus. Ouvrez un terminal sur votre machine, positionnez-vous dans un répertoire de travail (par exemple ~/Desktop/work), et faites un clone. Pour rappel, un clone s'effectue en cliquant sur le bouton déroulant "Code", en copiant l'URL du repository (préférez HTTPS au lieu de SSH), et en lnçant la commande `git clone ` suivie de cette URL.
+Commencez par effectuer une copie de ce repository sur votre compte GitHub en cliquant sur le bouton "Fork" en haut à droite de cette page. Vous allez ensuite cloner votre "Fork" en local afin de travaillez dessus. Ouvrez un terminal sur votre machine, positionnez-vous dans un répertoire de travail (par exemple ~/Desktop/work), et faites un clone. Pour rappel, un clone s'effectue en cliquant sur le bouton déroulant "Code", en copiant l'URL du repository (préférez HTTPS au lieu de SSH), et en lnçant la commande `git clone ` suivie de cette URL. Attention à bien copier votre Fork et non le repository original!
 
 Si c'est la première séance, passez directement au TP1 en passant par le lien un peu plus bas. Si vous avez déjà installé votre application Symfony, suivez les instructions suivantes pour lancer votre application.
 
 ## Versionner votre travail
 Il est très important de versionner vos fichiers régulièrement, afin de pouvoir facilement sauvegarder les différents versions de votre projet. En pratique, cela se traduit par faire des "commits" réguliers grâce à Git, en faisant des "push" sur votre repository GitHub.
 
-Pensez à commit la version de votre projet au moins une fois en fin de séance!
+**Pensez à commit la version de votre projet au moins une fois en fin de séance!**
 
 Rappel pour faire un commit:
 ```
+# Positionnez-vous dans le répertoire du projet si ce n'est pas déjà fait
+cd R4.DWeb-DI.07/
+
 # Faites le commit (vous pouvez personnaliser le message entre guillemets)
 git add .
 git commit -m "Nouvelle version du projet" 
