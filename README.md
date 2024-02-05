@@ -25,7 +25,7 @@ cd R4.DWeb-DI.07/
 git add .
 git commit -m "Nouvelle version du projet" 
 
-# Mettez à jour votre repository local avec la dernière version du repository distant (équivalent d'un )
+# Mettez à jour votre repository local avec la dernière version du repository distant
 git fetch
 git rebase
 
