@@ -11,58 +11,74 @@ use stdClass;
 use App\Entity\Lego;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\CreditsGenerator;
+use App\Service\DatabaseInterface;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 /* le nom de la classe doit être cohérent avec le nom du fichier */
 class LegoController extends AbstractController
 {
-    private array $legos = [];
 
-    public function __construct()
-    {
-        $data = file_get_contents(__DIR__ . '../../data.json');
-        $legosData = json_decode($data);
-
-        foreach ($legosData as $legoData) {
-            $lego = new Lego(
-                $legoData->id,
-                $legoData->name,
-                $legoData->collection
-            );
-            $lego->setDescription($legoData->description);
-            $lego->setPrice($legoData->price);
-            $lego->setPieces($legoData->pieces);
-            $lego->setBoxImage($legoData->images->box);
-            $lego->setLegoImage($legoData->images->bg);
-            $this->legos[] = $lego;
-        }
-    }   
-
-    #[Route('/')]
-    public function home()
-    {   
-        return $this->render('/lego.html.twig', [
-            'legos' => $this->legos,
-        ]);
-    }
+    // public function __construct()
+    // {
 
 
-    #[Route('/{collection}', 'filter_by_collection', requirements: ['collection' => 'Creator|Star Wars|Creator Expert'])]
-    public function filter($collection): Response
-    {
-        $legos = array_filter($this->legos, function ($lego) use ($collection) {
-            return $lego->getCollection() === $collection;
-        });
+    //     // $data = file_get_contents(__DIR__ . '../../data.json');
+    //     // $legosData = json_decode($data);
 
-        return $this->render('/lego.html.twig', [
-            'legos' => $legos,
-        ]);
-    }
+    //     // foreach ($legosData as $legoData) {
+    //     //     $lego = new Lego(
+    //     //         $legoData->id,
+    //     //         $legoData->name,
+    //     //         $legoData->collection
+    //     //     );
+    //     //     $lego->setDescription($legoData->description);
+    //     //     $lego->setPrice($legoData->price);
+    //     //     $lego->setPieces($legoData->pieces);
+    //     //     $lego->setBoxImage($legoData->images->box);
+    //     //     $lego->setLegoImage($legoData->images->bg);
+    //     //     $this->legos[] = $lego;
+    //     // }
+    // }   
+
+    // #[Route('/')]
+    // public function home()
+    // {   
+    //     return $this->render('/lego.html.twig', [
+    //         'legos' => $this->legos,
+    //     ]);
+    // }
+
 
     #[Route('/credits', 'credits')]
     public function credits(CreditsGenerator $credits): Response
     {
         return new Response($credits->getCredits());
     }
+
+
+
+    #[Route('/')]
+    public function home(DatabaseInterface $database): Response
+    {
+        $legosTabs = $database->getAllLegos();
+        return $this->render('/lego.html.twig', [
+            'legos' => $legosTabs,
+        ]);
+    }
+
+
+    //     #[Route('/{collection}', 'filter_by_collection', requirements: ['collection' => 'Creator|Star Wars|Creator Expert|Harry Potter'])]
+    // public function filter($collection): Response
+    // {
+    //     $legos = array_filter($this->legos, function ($lego) use ($collection) {
+    //         return $lego->getCollection() === $collection;
+    //     });
+
+    //     return $this->render('/lego.html.twig', [
+    //         'legos' => $legos,
+    //     ]);
+    // }
+    
 
 
    // L’attribute #[Route] indique ici que l'on associe la route
