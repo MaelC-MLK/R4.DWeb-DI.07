@@ -5,23 +5,26 @@
 namespace App\Controller;
 
 /* indique l'utilisation du bon bundle pour gérer nos routes */
+
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use stdClass;
 use App\Entity\Lego;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\CreditsGenerator;
-use App\Service\DatabaseInterface;
-use Symfony\Component\VarDumper\Cloner\Data;
+
 
 /* le nom de la classe doit être cohérent avec le nom du fichier */
 class LegoController extends AbstractController
 {
 
+
+
+
+
     // public function __construct()
     // {
-
-
     //     // $data = file_get_contents(__DIR__ . '../../data.json');
     //     // $legosData = json_decode($data);
 
@@ -39,7 +42,6 @@ class LegoController extends AbstractController
     //     //     $this->legos[] = $lego;
     //     // }
     // }   
-
     // #[Route('/')]
     // public function home()
     // {   
@@ -58,26 +60,45 @@ class LegoController extends AbstractController
 
 
     #[Route('/')]
-    public function home(DatabaseInterface $database): Response
+    public function home(EntityManagerInterface $LegoManager): Response
     {
-        $legosTabs = $database->getAllLegos();
+        $legos = $LegoManager->getRepository(Lego::class)->findAll();
         return $this->render('/lego.html.twig', [
-            'legos' => $legosTabs,
+            'legos' => $legos,
         ]);
     }
 
-
-    //     #[Route('/{collection}', 'filter_by_collection', requirements: ['collection' => 'Creator|Star Wars|Creator Expert|Harry Potter'])]
-    // public function filter($collection): Response
+    // #[Route('/test', 'test')]
+    // public function test(EntityManagerInterface $LegoManager): Response
     // {
-    //     $legos = array_filter($this->legos, function ($lego) use ($collection) {
-    //         return $lego->getCollection() === $collection;
-    //     });
-
-    //     return $this->render('/lego.html.twig', [
-    //         'legos' => $legos,
-    //     ]);
+    //     $json = file_get_contents(__DIR__ . '../src/Data/data.json');
+    //     $data = json_decode($json);
+    //     foreach ($data as $legoData) {
+    //         $l = new Lego($legoData->id);
+    //         $l->setName($legoData->name);
+    //         $l->setCollection($legoData->collection);
+    //         $l->setDescription($legoData->description);
+    //         $l->setPrice($legoData->price);
+    //         $l->setPieces($legoData->pieces);
+    //         $l->setBoxImage($legoData->images->box);
+    //         $l->setLegoImage($legoData->images->bg);
+    //         $LegoManager->persist($l);
+    //     }
+    //     $LegoManager->flush();
+    //     return new Response('Saved new products with id '.$l->getId());
     // }
+
+
+
+    #[Route('/{collection}', 'filter_by_collection', requirements: ['collection' => 'Creator|Star Wars|Creator Expert|Harry Potter'])]
+    public function filterByCollection(string $collection, EntityManagerInterface $LegoManager): Response
+    {
+        $legos = $LegoManager->getRepository(Lego::class)->findBy(['collection' => $collection]);
+        return $this->render('/lego.html.twig', [
+            'legos' => $legos,
+        ]);
+    }
+    
     
 
 
