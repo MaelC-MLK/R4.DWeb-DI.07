@@ -48,5 +48,3 @@ Vérifiez que vous accédez à votre application: [http://localhost:8787](http:/
 [TP2 : Doctrine](https://docs.google.com/document/d/1Og8lNe1Afz20ExA_TRfgnvA7vMFhnnEaoDwHnVdpzNk/edit?usp=sharing)
 
 [TP3 : Doctrine #2](https://docs.google.com/document/d/1uHgIVIQJMGPuTIubSbYgccfyh6NRQjEE3leYa9K2bLg/edit?usp=sharing)
-
-[TP4 : EasyAdmin // API Platform](https://docs.google.com/document/d/1RM3viMXUPBVPOztbH1l2mXn8FEh7Xzj-Su74d8yriqg/edit?usp=sharing)
