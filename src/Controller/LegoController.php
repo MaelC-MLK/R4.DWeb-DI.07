@@ -13,6 +13,9 @@ use App\Entity\Lego;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use App\Service\CreditsGenerator;
+use App\Entity\LegoCollection;
+use App\Repository\LegoCollectionRepository;
+
 
 
 /* le nom de la classe doit être cohérent avec le nom du fichier */
@@ -63,8 +66,10 @@ class LegoController extends AbstractController
     public function home(EntityManagerInterface $LegoManager): Response
     {
         $legos = $LegoManager->getRepository(Lego::class)->findAll();
+        $collections = $LegoManager->getRepository(LegoCollection::class)->findAll();
         return $this->render('/lego.html.twig', [
             'legos' => $legos,
+            'collections' => $collections,
         ]);
     }
 
@@ -90,17 +95,30 @@ class LegoController extends AbstractController
 
 
 
-    #[Route('/{collection}', 'filter_by_collection', requirements: ['collection' => 'Creator|Star Wars|Creator Expert|Harry Potter'])]
-    public function filterByCollection(string $collection, EntityManagerInterface $LegoManager): Response
+    // #[Route('/{collection}', 'filter_by_collection', requirements: ['collection' => 'Creator|Star Wars|Creator Expert|Harry Potter'])]
+    // public function filterByCollection(string $collection, EntityManagerInterface $LegoManager): Response
+    // {
+    //     $legos = $LegoManager->getRepository(Lego::class)->findBy(['collection' => $collection]);
+    //     return $this->render('/lego.html.twig', [
+    //         'legos' => $legos,
+    //     ]);
+    // }
+
+
+    #[Route('/{name}', 'filter_by_collection', requirements: ['name' => 'Creator|Star Wars|Creator Expert|Harry Potter'])]
+    public function filterByCollection(LegoCollection $collection, LegoCollectionRepository $collectionRepository): Response
     {
-        $legos = $LegoManager->getRepository(Lego::class)->findBy(['collection' => $collection]);
+        $legos = $collection->getLego();
+        $collections = $collectionRepository->findAll();
+
         return $this->render('/lego.html.twig', [
             'legos' => $legos,
+            'collections' => $collections,
         ]);
     }
-    
-    
 
+
+    
 
    // L’attribute #[Route] indique ici que l'on associe la route
    // "/" à la méthode home pour que Symfony l'exécute chaque fois

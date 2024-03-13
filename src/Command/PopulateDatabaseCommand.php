@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Entity\Lego;
+
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -10,21 +12,21 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\Lego;
 use Symfony\Component\Console\Helper\ProgressBar;
+
 
 #[AsCommand(
     name: 'app:populate-database',
     description: 'Add a short description for your command',
 )]
-class PopulateDatabaseCommand extends Command{
+class PopulateDatabaseCommand extends Command
+{
+private EntityManagerInterface $legoManager;
 
-    private EntityManagerInterface $LegoManager;
-
-    public function __construct(EntityManagerInterface $LegoManager)
+    public function __construct(EntityManagerInterface $legoManager)
     {
         parent::__construct();
-        $this->LegoManager = $LegoManager;        
+        $this->legoManager = $legoManager;
     }
 
     protected function configure(): void
@@ -42,25 +44,24 @@ class PopulateDatabaseCommand extends Command{
 
         if ($arg1) {
             $json = file_get_contents(__DIR__ . '../../../' . $arg1);
-            $legosData = json_decode($json);
-            $progressBar = $io->createProgressBar(count($legosData));
+            $legos = json_decode($json, true);
+            $progressBar = new ProgressBar($output, count($legos));
             $progressBar->start();
-            foreach ($legosData as $legoData) {
-                $lego = new Lego(
-                    $legoData->id,
-                );
-                $lego->setName($legoData->name);
-                $lego->setCollection($legoData->collection); 
-                $lego->setDescription($legoData->description);
-                $lego->setPrice($legoData->price);
-                $lego->setPieces($legoData->pieces);
-                $lego->setBoxImage($legoData->images->box);
-                $lego->setLegoImage($legoData->images->bg);
-                $this->LegoManager->persist($lego);
+            foreach ($legos as $lego) {
+                $l = new Lego($lego['id']);
+                $l->setName($lego['name']);
+                $l->setCollection($lego['collection']);
+                $l->setDescription($lego['description']);
+                $l->setPrice($lego['price']);
+                $l->setPieces($lego['pieces']);
+                $l->setBoxImage($lego['images']['box']);
+                $l->setLegoImage($lego['images']['bg']);
+                $this->legoManager->persist($l);
                 $progressBar->advance();
             }
-            $this->LegoManager->flush();
+            $this->legoManager->flush();
             $progressBar->finish();
+
 
         }
 
@@ -72,4 +73,7 @@ class PopulateDatabaseCommand extends Command{
 
         return Command::SUCCESS;
     }
+
 }
+
+

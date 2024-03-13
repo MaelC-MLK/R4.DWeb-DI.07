@@ -1,12 +1,27 @@
 {% extends "base.html.twig" %}
 {% block body %}
+
+
+    <nav>
+    <a href="/">All</a> |
+
+
+    {% for collection in collections %}
+    <a href="/{{collection.name}}">{{collection.name}}</a> |
+    {% endfor %}
+
+
+</nav>
+
+
+
 {% for lego in legos %}
 <div class="lego_card">
       <div class="info_section">
         <div class="lego_header">
           <img class="locandina" src="/images/{{lego.boxImage}}"/>
           <h1>{{lego.name}}</h1>
-          <h4>Collection : {{lego.collection}}</h4>
+          <h4>Collection : {{lego.collection.name}}</h4>
           <span class="pieces">Pièces : {{lego.pieces}}</span>
           <p class="price">{{lego.price}}€</p><br>
           <a href="index.php?buy={{lego.id}}"><button>Buy</button></a>

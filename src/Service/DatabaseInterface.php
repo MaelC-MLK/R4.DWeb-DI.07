@@ -1,63 +1,65 @@
 <?php
 
-namespace App\Service;
 
-use PDO;
+// Là ou la classe est déclarée (où son fichier se trouve)
+namespace App\Service;
 use App\Entity\Lego;
+
+
 
 class DatabaseInterface
 {
+
     private array $legos = [];
-
-
-    public function getAllLegos(): array
+    
+    public function getAllLegos()
     {
-        
-        $pdo = new PDO('mysql:host=tp-symfony-mysql;dbname=lego_store', 'root', 'root' );
+        // $sql = 'SELECT * FROM lego';
+
+        $pdo = new \PDO('mysql:host=tp-symfony-mysql;dbname=lego_store', 'root', 'root');
         $statement = $pdo->query('SELECT * FROM lego');
         $legosData = $statement->fetchAll();
+        
 
-        foreach ($legosData as $lego) {
-            $legosTab = new Lego (
-                $lego['id'],
-                $lego['name'],
-                $lego['collection']
+        foreach ($legosData as $legoData) {
+            $lego = new Lego(
+                $legoData["id"],
+                $legoData["name"],
+                $legoData["collection"]
             );
-            $legosTab->setDescription($lego['description']);
-            $legosTab->setPrice($lego['price']);
-            $legosTab->setPieces($lego['pieces']);
-            $legosTab->setBoxImage($lego['imagebox']);
-            $legosTab->setLegoImage($lego['imagebg']);
-
-            $this->legos[] = $legosTab;
+            $lego->setDescription($legoData["description"]);
+            $lego->setPrice($legoData["price"]);
+            $lego->setPieces($legoData["pieces"]);
+            $lego->setBoxImage($legoData["imagebox"]);
+            $lego->setLegoImage($legoData["imagebg"]);
+            $this->legos[] = $lego;
         }
+        return $this->legos;        
+    }   
 
-        return $this->legos;
-    }
 
-    public function getLegosByCollection(string $collection): array
+
+    public function getLegoByCollection(string $collection)
     {
-        $pdo = new PDO('mysql:host=tp-symfony-mysql;dbname=lego_store', 'root', 'root' );
-        $statement = $pdo->prepare("SELECT * FROM lego WHERE collection = '$collection'");
-        $statement->execute();
+        $pdo = new \PDO('mysql:host=tp-symfony-mysql;dbname=lego_store', 'root', 'root');
+        $statement = $pdo->prepare('SELECT * FROM lego WHERE collection = :collection');
+        $statement->execute(['collection' => $collection]);
         $legosData = $statement->fetchAll();
-
-        foreach ($legosData as $lego) {
-            $legosTab = new Lego (
-                $lego['id'],
-                $lego['name'],
-                $lego['collection']
+        $legos = [];
+        foreach ($legosData as $legoData) {
+            $lego = new Lego(
+                $legoData["id"],
+                $legoData["name"],
+                $legoData["collection"]
             );
-            $legosTab->setDescription($lego['description']);
-            $legosTab->setPrice($lego['price']);
-            $legosTab->setPieces($lego['pieces']);
-            $legosTab->setBoxImage($lego['imagebox']);
-            $legosTab->setLegoImage($lego['imagebg']);
-
-            $this->legos[] = $legosTab;
+            $lego->setDescription($legoData["description"]);
+            $lego->setPrice($legoData["price"]);
+            $lego->setPieces($legoData["pieces"]);
+            $lego->setBoxImage($legoData["imagebox"]);
+            $lego->setLegoImage($legoData["imagebg"]);
+            $legos[] = $lego;
         }
-
-        return $this->legos;
-
+        return $legos;
     }
+
 }

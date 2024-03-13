@@ -91,7 +91,7 @@
         "pieces": 3010,
         "price": 249.99,
         "images": {
-          "box": "LEGO_76391_Main.png",
+          "box": "LEGO_76391_Box.jpg",
           "bg": "LEGO_76391_Main.png"
         }
       },
@@ -103,7 +103,7 @@
         "pieces": 6020,
         "price": 419.99,
         "images": {
-          "box": "LEGO_71043_Main.jpg",
+          "box": "LEGO_71043_Box.jpg",
           "bg": "LEGO_71043_Main.jpg"
         }
       }   
